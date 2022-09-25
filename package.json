@@ -1,0 +1,11 @@
+{
+  "name": "experiment",
+  "version": "1.0.0",
+  "description": "experimenting with 3d pose estimation",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HealthServ/postop-experiment.git"
+  },
+  "author": "Julian Hecker"
+}
