@@ -31,7 +31,7 @@
   </head>
   <body>
     <div class="container">
-      <video class="input_video"></video>
+      <video class="input_video" hidden></video>
       <canvas
         class="output_canvas"
         width="1280px"
@@ -64,23 +64,23 @@
         canvasElement.width,
         canvasElement.height,
       );
-      canvasCtx.drawImage(
-        results.segmentationMask,
-        0,
-        0,
-        canvasElement.width,
-        canvasElement.height,
-      );
+      // canvasCtx.drawImage(
+      //   results.segmentationMask,
+      //   0,
+      //   0,
+      //   canvasElement.width,
+      //   canvasElement.height,
+      // );
 
-      // Only overwrite existing pixels.
-      canvasCtx.globalCompositeOperation = 'source-in';
-      canvasCtx.fillStyle = '#00FF00';
-      canvasCtx.fillRect(
-        0,
-        0,
-        canvasElement.width,
-        canvasElement.height,
-      );
+      // // Only overwrite existing pixels.
+      // canvasCtx.globalCompositeOperation = 'source-in';
+      // canvasCtx.fillStyle = '#00FF00';
+      // canvasCtx.fillRect(
+      //   0,
+      //   0,
+      //   canvasElement.width,
+      //   canvasElement.height,
+      // );
 
       // Only overwrite missing pixels.
       canvasCtx.globalCompositeOperation = 'destination-atop';
