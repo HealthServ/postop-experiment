@@ -27,7 +27,12 @@
   </head>
   <body>
     <div class="container">
-      <video class="input_video"></video>
+      <video
+        class="input_video"
+        controls=""
+        controlslist="nofullscreen"
+        autopictureinpicture
+      ></video>
       <canvas
         class="output_canvas"
         width="1280px"
@@ -94,7 +99,6 @@
         lineWidth: 2,
       });
       canvasCtx.restore();
-
     }
 
     const pose = new Pose({
