@@ -44,7 +44,6 @@
 
     function onResults(results) {
       if (!results.poseLandmarks) {
-        // grid.updateLandmarks([]);
         return;
       }
 
@@ -96,7 +95,6 @@
       });
       canvasCtx.restore();
 
-      grid.updateLandmarks(results.poseWorldLandmarks);
     }
 
     const pose = new Pose({
