@@ -130,7 +130,7 @@
       window?.ReactNativeWebView?.postMessage(props);
     }
     window.addEventListener('message', (message) => {
-      alert(JSON.stringify(message));
+      if (message.data) alert(JSON.stringify(message));
     });
   </script>
 </html>
