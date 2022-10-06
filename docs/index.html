@@ -8,6 +8,11 @@
       content="width=device-width, initial-scale=1.0"
     />
     <title>PostOp Pose Experiments</title>
+    <style>
+      body {
+        margin: 0;
+      }
+    </style>
     <script
       src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"
       crossorigin="anonymous"
@@ -127,10 +132,10 @@
     pose.onResults(onResults);
 
     async function postMessageRN(props) {
-      window?.ReactNativeWebView?.postMessage(props);
+      window?.ReactNativeWebView?.postMessage(JSON.stringify(props));
     }
     window.addEventListener('message', (message) => {
-      if (message.data) alert(JSON.stringify(message));
+      console.error(message);
     });
   </script>
 </html>
