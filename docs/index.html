@@ -35,12 +35,7 @@
         style="width: 100%"
         hidden
       ></video>
-      <canvas
-        class="output_canvas"
-        width="1280px"
-        height="720px"
-        style="width: 100%"
-      ></canvas>
+      <canvas class="output_canvas" style="width: 100%"></canvas>
     </div>
   </body>
   <script type="module">
@@ -49,6 +44,17 @@
     const canvasElement =
       document.getElementsByClassName('output_canvas')[0];
     const canvasCtx = canvasElement.getContext('2d');
+
+    const camera = new Camera(videoElement, {
+      onFrame: async () => {
+        await pose.send({ image: videoElement });
+      },
+    });
+
+    canvasElement.setAttribute('width', camera?.h?.width);
+    canvasElement.setAttribute('height', camera?.h?.height);
+
+    camera.start();
 
     function onResults(results) {
       if (!results.poseLandmarks) {
@@ -95,13 +101,14 @@
         canvasCtx,
         results.poseLandmarks,
         POSE_CONNECTIONS,
-        { color: '#00FF00', lineWidth: 4 },
+        { color: '#fff', lineWidth: 2 },
       );
       drawLandmarks(canvasCtx, results.poseLandmarks, {
-        color: '#FF0000',
-        lineWidth: 2,
+        color: '#fff',
+        lineWidth: 1,
       });
       canvasCtx.restore();
+      postMessageRN(results.poseWorldLandmarks);
     }
 
     const pose = new Pose({
@@ -110,7 +117,7 @@
       },
     });
     pose.setOptions({
-      modelComplexity: 1,
+      modelComplexity: 0,
       smoothLandmarks: true,
       enableSegmentation: true,
       smoothSegmentation: true,
@@ -119,13 +126,11 @@
     });
     pose.onResults(onResults);
 
-    const camera = new Camera(videoElement, {
-      onFrame: async () => {
-        await pose.send({ image: videoElement });
-      },
-      width: 1280,
-      height: 720,
+    async function postMessageRN(props) {
+      window?.ReactNativeWebView?.postMessage(props);
+    }
+    window.addEventListener('message', (message) => {
+      alert(JSON.stringify(message));
     });
-    camera.start();
   </script>
 </html>

@@ -63,11 +63,11 @@ export const App = () => {
     ctx.globalCompositeOperation = 'source-over';
     drawConnectors(ctx, results.poseLandmarks, POSE_CONNECTIONS, {
       color: '#fff',
-      lineWidth: 4,
+      lineWidth: 2,
     });
     drawLandmarks(ctx, results.poseLandmarks, {
       color: '#fff',
-      lineWidth: 2,
+      lineWidth: 1,
     });
     ctx.restore();
     // console.log(results.poseWorldLandmarks);
@@ -78,15 +78,20 @@ export const App = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
+    console.log('effect');
     const videoElement = videoRef.current!;
     if (!videoElement) return;
-    cameraRef.current = new Camera(videoElement, {
-      width: 1280,
-      height: 720,
+    const camera = new Camera(videoElement, {
       onFrame: async () => {
         await pose.send({ image: videoElement });
       },
     });
+
+    const { width, height } = (camera as any)?.h;
+    canvasElement?.setAttribute('width', width);
+    canvasElement?.setAttribute('height', height);
+
+    cameraRef.current = camera;
     cameraRef.current.start();
     return () => {
       cameraRef.current.stop();
@@ -100,13 +105,7 @@ export const App = () => {
   return (
     <div>
       <video id="input" ref={videoRef} hidden={!loading}></video>
-      <canvas
-        id="output"
-        width="1280px"
-        height="720px"
-        ref={canvasRef}
-        hidden={loading}
-      ></canvas>
+      <canvas id="output" ref={canvasRef} hidden={loading}></canvas>
     </div>
   );
 };
